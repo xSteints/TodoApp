@@ -8,6 +8,9 @@ void main() async {
   runApp(const MyApp());
 }
 
+final db = FirebaseFirestore.instance;
+String? value;
+
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
   // This widget is the root of your application.
@@ -40,16 +43,16 @@ class MyHomePage extends StatelessWidget {
         title: const Text('Todo App'),
         centerTitle: true,
       ),
-      body: Center(child: Text('Our Todo Will Be Here')),
+      body: Text("Our Todo's will be here"),
     );
   }
 }
 
 Widget showBottomSheet(BuildContext context) {
-  String? value;
   return Padding(
     padding: const EdgeInsets.only(top: 20),
     child: Column(
+      // mainAxisAlignment: MainAxisAlignment.center,
       children: [
         SizedBox(
           width: MediaQuery.of(context).size.width * 0.9,
@@ -69,7 +72,8 @@ Widget showBottomSheet(BuildContext context) {
                 backgroundColor:
                     MaterialStateProperty.all(Colors.lightBlueAccent)),
             onPressed: () {
-              // Todo: The Create Functionality will be here
+              db.collection('todos').add({'todo': value});
+              Navigator.pop(context);
             },
             child: const Text(
               'ADD',
